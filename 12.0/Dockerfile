@@ -55,7 +55,6 @@ RUN echo 'deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main' > /etc
         && apt-get install --no-install-recommends -y postgresql-client \
         && rm -f /etc/apt/sources.list.d/pgdg.list \
         && rm -rf /var/lib/apt/lists/*
-        &&  pip install xlsx 
 
 # Install rtlcss (on Debian stretch)
 RUN echo "deb http://deb.nodesource.com/node_8.x stretch main" > /etc/apt/sources.list.d/nodesource.list \
@@ -82,7 +81,10 @@ RUN curl -o odoo.deb -sSL http://nightly.odoo.com/${ODOO_VERSION}/nightly/deb/od
         && rm -rf /var/lib/apt/lists/* odoo.deb
 
 # Copy entrypoint script and Odoo configuration file
+
+RUN pip3 install xlrd
 COPY ./entrypoint.sh /
+RUN chmod +x /entrypoint.sh
 COPY ./odoo.conf /etc/odoo/
 
 # Mount /var/lib/odoo to allow restoring filestore and /mnt/extra-addons for users addons
