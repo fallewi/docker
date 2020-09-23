@@ -40,8 +40,8 @@ RUN apt-get update \
         && rm -rf /var/lib/apt/lists/* wkhtmltox.deb
 # clone du réposiory git docker-python
 RUN apt-get install -y python-setuptools git
-RUN git clone https://github.com/pypa/pip
-RUN cd pip && python setup.py install
+# RUN git clone https://github.com/pypa/pip
+# RUN cd pip && python setup.py install
 RUN pip install docker-py
 # install latest postgresql-client
 RUN echo 'deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main' > /etc/apt/sources.list.d/pgdg.list \
