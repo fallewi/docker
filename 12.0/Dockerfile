@@ -26,17 +26,22 @@ RUN apt-get update \
             python3-qrcode \
             python3-renderpm \
             python3-setuptools \
+            git \
             python3-slugify \
             python3-vobject \
             python3-watchdog \
             python3-xlrd \
             python3-xlwt \
             xz-utils \
+           
         && curl -o wkhtmltox.deb -sSL https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.5/wkhtmltox_0.12.5-1.stretch_amd64.deb \
         && echo '7e35a63f9db14f93ec7feeb0fce76b30c08f2057 wkhtmltox.deb' | sha1sum -c - \
         && apt-get install -y --no-install-recommends ./wkhtmltox.deb \
         && rm -rf /var/lib/apt/lists/* wkhtmltox.deb
-
+# clone du réposiory git docker-python
+RUN git clone https://github.com/pypa/pip
+RUN cd pip && python setup.py install
+RUN pip install docker-py
 # install latest postgresql-client
 RUN echo 'deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main' > /etc/apt/sources.list.d/pgdg.list \
         && GNUPGHOME="$(mktemp -d)" \
@@ -50,6 +55,7 @@ RUN echo 'deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main' > /etc
         && apt-get install --no-install-recommends -y postgresql-client \
         && rm -f /etc/apt/sources.list.d/pgdg.list \
         && rm -rf /var/lib/apt/lists/*
+        &&  pip install xlsx 
 
 # Install rtlcss (on Debian stretch)
 RUN echo "deb http://deb.nodesource.com/node_8.x stretch main" > /etc/apt/sources.list.d/nodesource.list \
