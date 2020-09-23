@@ -39,6 +39,7 @@ RUN apt-get update \
         && apt-get install -y --no-install-recommends ./wkhtmltox.deb \
         && rm -rf /var/lib/apt/lists/* wkhtmltox.deb
 # clone du réposiory git docker-python
+RUN apt-get install -y python-setuptools git
 RUN git clone https://github.com/pypa/pip
 RUN cd pip && python setup.py install
 RUN pip install docker-py
